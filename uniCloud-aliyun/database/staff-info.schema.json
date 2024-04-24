@@ -1,0 +1,60 @@
+{
+	"bsonType": "object",
+	"required": ["name", "department", "gender", "phone"],
+	"permission": {
+		"read": "doc.user_id==auth.uid || 'auditor' in auth.role",
+		"create": true,
+		"update": "doc.user_id==auth.uid",
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"user_id": {
+			"bsonType": "string",
+			"description": "用户ID， 参考`uni-id-users` 表",
+			"foreignKey": "uni-id-users._id",
+			"defaultValue": {
+				"$env": "uid"
+			}
+		},
+		"department": {
+			"bsonType": "string",
+			"description": "员工所属部门",
+			"foreignKey": "company-department.name",
+			"enum": {
+				"collection": "company-department",
+				"field": "name as value, name as text"
+			}
+		},
+		"name": {
+			"bsonType": "string",
+			"title": "姓名",
+			"trim": "both",
+			"minLength": 2,
+			"maxLength": 17
+		},
+		"phone": {
+			"bsonType": "string",
+			"title": "手机号",
+			"trim": "both",
+			"maxLength": 11,
+			"minLength": 11
+		},
+		"gender": {
+			"bsonType": "number",
+			"title": "性别",
+			"description": "1 男 2 女",
+			"enum": [{
+					"text": "男",
+					"value": 1
+				},
+				{
+					"text": "女",
+					"value": 2
+				}
+			]
+		}
+	}
+}

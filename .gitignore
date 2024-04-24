@@ -1,0 +1,6 @@
+# build
+unpackage/
+
+# appid
+uni_modules/**/config.json
+manifest.json

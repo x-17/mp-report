@@ -1,0 +1,47 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": ["text"],
+	"permission": {
+		"read": "doc.user_id==auth.uid || 'auditor' in auth.role",
+		"create": true,
+		"update": "doc.user_id==auth.uid",
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"staff_id": {
+			"bsonType": "string",
+			"description": "职工ID， 参考`staff-info` 表",
+			"foreignKey": "staff-info._id"
+		},
+		"user_id": {
+			"bsonType": "string",
+			"description": "用户ID， 参考`uni-id-user` 表",
+			"foreignKey": "uni-id-user._id",
+			"defaultValue": {
+				"$env": "uid"
+			}
+		},
+		"text": {
+			"bsonType": "string",
+			"description": "上报的文字",
+			"maxLength": 300
+		},
+		"image": {
+			"bsonType": "array",
+			"arrayType": "file",
+			"fileMediaType": "image",
+			"title": "上报的图片数组"
+		},
+		"time": {
+			"bsonType": "timestamp",
+			"description": "上报的时间",
+			"defaultValue": {
+				"$env": "now"
+			}
+		}
+	}
+}
